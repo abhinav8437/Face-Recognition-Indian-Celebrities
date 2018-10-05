@@ -15,8 +15,6 @@ from Paths import video_direc,path_to_save_downloaded_images,path_to_save_video_
 #CONVERTING VIDEO TO IMAGES AND SAVING IN CURRENT DIRECTORY
 
 class Video_to_test_embedds():
-    def __init__(self):
-        pass
 
     def video_to_images(self):
 
@@ -35,9 +33,12 @@ class Video_to_test_embedds():
 
     # TEST IMAGE EMBEDDING!
     # THIS IS ONLY FOR 1 IMAGE AT A TIME
+    # TEST IMAGE EMBEDDING!
+    # THIS IS ONLY FOR 1 IMAGE AT A TIME
     def test_embeddings(self,test_gray_images):
 
-        face_cascade = cv2.CascadeClassifier('/anaconda3/pkgs/libopencv-3.4.2-h7c891bd_1/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
+        face_cascade = cv2.CascadeClassifier(
+            '/anaconda3/pkgs/libopencv-3.4.2-h7c891bd_1/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
         dict_faces = {}
         test_embedds = []
         test_faces = []
@@ -53,7 +54,7 @@ class Video_to_test_embedds():
             image_placeholder = tf.get_default_graph().get_tensor_by_name("input:0")
             embeddings = tf.get_default_graph().get_tensor_by_name("embeddings:0")
             phase_train_placeholder = tf.get_default_graph().get_tensor_by_name("phase_train:0")
-        # ==============================================================>
+            # ==============================================================>
             for imga in range(test_gray_images.shape[0]):
                 faces_ = face_cascade.detectMultiScale(test_gray_images[imga], 1.3, 5)
                 # WORK ON THOSE FRAMES WHICH HAS FACES
@@ -79,11 +80,10 @@ class Video_to_test_embedds():
                             test_embeddings = sess.run(embeddings, feed_dict=feed_dict)
                             #                 test_embeddings = vector_to_embeddings(test_face.reshape(1,160,160,3))
                             faces_in_one_image_embedds.append(test_embeddings)
-        #         return np.array(test_embedds).reshape(len(dict_faces),512),test_faces
         return test_embedds, test_faces, test_frames
 
     def get_test_embeddings(self):
-        self.video_to_images()
-        test_gray_images, test_bgr_images, test_labels = Prepare_trainig_set.image_to_vector("test")
+        # self.video_to_images()
+        test_gray_images, test_bgr_images, test_labels = Prepare_trainig_set().image_to_vector("test")
         test_face_embeddings, test_faces, test_frames = self.test_embeddings(test_gray_images)
         return test_face_embeddings, test_faces, test_frames
