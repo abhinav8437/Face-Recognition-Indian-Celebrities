@@ -142,17 +142,17 @@ class Prepare_trainig_set():
         return X, labels, np.array(vectors)
 
     def get_training_set_with_labels(self):
-        # parse_images_of_celebrities_from_google(celebrities=celeb_list,num_of_images=self.num_of_pics_for_each_celeb)
-        # gray_images, bgr_images, labels = self.image_to_vector("train")
-        # facess, labels = self.detect_face_and_crop(gray_images)
-        # pk.dump(facess, open("facess.p", "wb"))
-        # os.chdir("/Users/abhinavrohilla/Data/downloads/Salman Khan/")
-        facess = pk.load(open("facess.p", "rb"))
+        parse_images_of_celebrities_from_google(celebrities=celeb_list,num_of_images=self.num_of_pics_for_each_celeb)
+        gray_images, bgr_images, labels = self.image_to_vector("train")
+        facess, labels = self.detect_face_and_crop(gray_images)
+        pk.dump(facess, open("facess.p", "wb"))
+        os.chdir("/Users/abhinavrohilla/Data/downloads/Salman Khan/")
+        # facess = pk.load(open("facess.p", "rb"))
         # FACENET REQUIRES BGR IMAGES
-        # bgr_faces_for_embeddings = self.gray_to_bgr_faces(facess=facess)
-        # face_embeddings = self.vector_to_embeddings(bgr_faces_for_embeddings)
-        # pk.dump(face_embeddings,open("face_embeddings.p","wb"))
-        face_embeddings = pk.load(open("face_embeddings.p","rb"))
+        bgr_faces_for_embeddings = self.gray_to_bgr_faces(facess=facess)
+        face_embeddings = self.vector_to_embeddings(bgr_faces_for_embeddings)
+        pk.dump(face_embeddings,open("face_embeddings.p","wb"))
+        # face_embeddings = pk.load(open("face_embeddings.p","rb"))
         pure_face_embedds, pure_face_vectors = remove_uncessary_faces_fetched_from_google_using_DBSCAN(face_embeddings,facess,self.celeb_list)
         X, labels, X_vectors = self.create_training_data_with_labels(self.celeb_list, pure_face_embedds, pure_face_vectors)
         return X, labels, pure_face_embedds
