@@ -1,15 +1,8 @@
 import cv2
 import os
-import numpy as np
-import pickle as pk
 import sys
 import tensorflow as tf
-from sklearn.metrics.pairwise import cosine_similarity,euclidean_distances
-from sklearn.neighbors import KNeighborsClassifier
-import time
-from Paths import celeb_list
 from Training_set import Prepare_trainig_set
-from sklearn.svm import SVC
 from Paths import video_direc,path_to_save_downloaded_images,path_to_save_video_frames
 
 #CONVERTING VIDEO TO IMAGES AND SAVING IN CURRENT DIRECTORY
@@ -78,7 +71,6 @@ class Video_to_test_embedds():
                             feed_dict = {image_placeholder: prewhiten_face.reshape(-1, 160, 160, 3),
                                          phase_train_placeholder: False}
                             test_embeddings = sess.run(embeddings, feed_dict=feed_dict)
-                            #                 test_embeddings = vector_to_embeddings(test_face.reshape(1,160,160,3))
                             faces_in_one_image_embedds.append(test_embeddings)
         return test_embedds, test_faces, test_frames
 
